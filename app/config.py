@@ -1,8 +1,20 @@
 """Конфиг для хранения важныx переменных."""
+import os
+
+
+class Config:
+    """Класс конфига."""
+
+    SECRET_KEY = os.urandom(32)  # example variant
+
+    @staticmethod
+    def get_secret_key() -> str:
+        """Возвращает секретный ключ."""
+        return Config.SECRET_KEY
 
 
 class DBConfig:
-    """Класс конфиг.
+    """Класс конфига базы данных.
     Здесь хранятся переменные postgresql
     """
 
