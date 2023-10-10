@@ -1,7 +1,7 @@
 """Конфиг для хранения важныx переменных."""
 
 
-class Config:
+class DBConfig:
     """Класс конфиг.
     Здесь хранятся переменные postgresql
     """
@@ -15,26 +15,31 @@ class Config:
     @staticmethod
     def get_db_name() -> str:
         """Возвращает название базы данных."""
-        return Config.POSTGRES_DB
+        return DBConfig.POSTGRES_DB
 
     @staticmethod
     def get_db_username() -> str:
         """Возвращает имя пользователя базы данных."""
-        return Config.POSTGRES_USERNAME
+        return DBConfig.POSTGRES_USERNAME
 
     @staticmethod
     def get_db_pswd() -> str:
         """Возвращает пaроль к базе данных."""
-        return Config.POSTGRES_PASSWORD
+        return DBConfig.POSTGRES_PASSWORD
 
     @staticmethod
     def get_db_data() -> dict:
         """Возвращает все данные о базе данных в виде словаря."""
         data = {
-            "pass": Config.get_db_pswd(),
-            "name": Config.get_db_username(),
-            "db": Config.get_db_name(),
-            "host": Config.POSTGRES_HOST,
-            "port": Config.POSTGRES_PORT,
+            "pass": DBConfig.get_db_pswd(),
+            "name": DBConfig.get_db_username(),
+            "db": DBConfig.get_db_name(),
+            "host": DBConfig.POSTGRES_HOST,
+            "port": DBConfig.POSTGRES_PORT,
         }
         return data
+
+    @staticmethod
+    def get_db_url() -> str:
+        conf = DBConfig.get_db_data()
+        return f"postgresql://{conf['name']}:{conf['pass']}@{conf['host']}/{conf['db']}"
