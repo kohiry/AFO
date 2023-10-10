@@ -1,8 +1,9 @@
 from pydentic import BaseModel, Field, EmailStr
+from uuid import UUID
 
 
 class UserSchema(BaseModel):
-    id: str  # uuid
+    id: UUID
     username: str
     email: EmailStr = Field(examples=["marcelo@mail.com"])
     password: str
