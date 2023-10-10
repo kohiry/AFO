@@ -1,14 +1,5 @@
-from main import app
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_wtf.csrf import CSRFProtect
-from flask_bcrypt import Bcrypt
-import os
+from main import db
 from flask_login import UserMixin
-
-bcrypt = Bcrypt(app)
-db = SQLAlchemy(app)
-csrf = CSRFProtect(app)
 
 
 class User(db.Model, UserMixin):
