@@ -1,8 +1,41 @@
 import pytest
-from schemas import UserSchema, BankSchema
-from services import UserCRUD, BankCRUD, UserManager
+from schemas import UserSchema, BankSchema, LoginSchema
+from services import UserCRUD, BankCRUD, UserManager, UserCheck
 from models import BankReq
 import uuid
+
+
+def test_user_login_bad():
+    user_id = uuid.uuid4()
+    user_data = UserSchema(
+        id=user_id,
+        email="hi@mail.ru",
+        username="hello",
+        password="123",
+        banks=[],
+    )
+    user2_data = LoginSchema(
+        username="hello",
+        password="123",
+    )
+    user3_data = LoginSchema(
+        username="hello",
+        password="1234",
+    )
+    user4_data = LoginSchema(
+        username="helloo",
+        password="123",
+    )
+    try:
+        UserCRUD.create(user_data)
+        assert UserCheck.check(user2_data) is True
+        assert UserCheck.check(user3_data) is False
+        assert UserCheck.check(user4_data) is False
+
+    except Exception as e:
+        pytest.fail(f"Bad request: {e}")
+
+    UserCRUD.delete(user_data.id)
 
 
 def test_active_bank():
