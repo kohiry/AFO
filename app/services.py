@@ -1,15 +1,14 @@
 from models import User
-from services import CastUserAndUserSchema as castU
 from schemas import UserSchema
 
 
 class UserManager:
     """Класс для взаимодействия с пользователем."""
 
-    @staicmethod
+    @staticmethod
     def get_by_id(user_id: str) -> UserSchema:
         """Метод получения схемы юзера по его id."""
-        return castU(User.query.get(user_id)).db_to_schema()
+        return CastUserAndUserSchema(User.query.get(user_id)).db_to_schema()
 
 
 class UserCRUD:
