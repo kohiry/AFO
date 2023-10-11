@@ -1,7 +1,68 @@
 import pytest
 from schemas import UserSchema, BankSchema
 from services import UserCRUD, BankCRUD, UserManager
+from models import BankReq
 import uuid
+
+
+def test_active_bank():
+    # Генерируем уникальный UUID для пользователя
+    user_id = uuid.uuid4()
+
+    # Создаем объект UserSchema
+    user_data = UserSchema(
+        id=user_id,
+        email="hi@mail.ru",
+        username="hello",
+        password="123",
+        banks=[],
+    )
+
+    req = BankSchema(
+        id=uuid.uuid4(),
+        bank_name="много денег банк(с)",
+        bik=1,
+        kor_score="2",
+        swift="3",
+        iban="4",
+        user_id=user_data.id,
+    )
+    req2 = BankSchema(
+        id=uuid.uuid4(),
+        bank_name="мало денег банк(с)",
+        bik=1,
+        kor_score="2",
+        swift="3",
+        iban="4",
+        user_id=user_data.id,
+    )
+
+    # Вызываем функцию создания пользователя и проверяем, что она не вызывает исключений
+    try:
+        UserCRUD.create(user_data)
+        BankCRUD.create(req)
+        BankCRUD.create(req2)
+
+        UserManager.set_active_bank(req.id, user_data.id)
+        active_bank = BankReq.query.filter_by(
+            is_active=True, user_id=user_data.id
+        ).first()
+        assert active_bank is not None
+        assert active_bank.id == req.id
+        UserManager.set_active_bank(req2.id, user_data.id)
+        active_bank = BankReq.query.filter_by(
+            is_active=True, user_id=user_data.id
+        ).first()
+        assert active_bank is not None
+        assert active_bank.id != req.id
+        assert active_bank.id == req2.id
+
+    except Exception as e:
+        pytest.fail(f"Bad request: {e}")
+
+    BankCRUD.delete(req.id)
+    BankCRUD.delete(req2.id)
+    UserCRUD.delete(user_data.id)
 
 
 def test_user_creation():
@@ -63,7 +124,6 @@ def test_bank_list():
         BankCRUD.create(req)
         BankCRUD.create(req2)
         bank_list = UserManager.get_banks(user_data.id)
-        print(bank_list)
         assert bank_list is not None and len(bank_list) == 2
         assert type(bank_list[0]) == BankSchema
 

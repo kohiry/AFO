@@ -21,6 +21,7 @@ class UserManager:
             swift=bank.swift,
             iban=bank.iban,
             user_id=bank.user_id,
+            is_active=bank.is_active,
         )
 
     @staticmethod
@@ -29,6 +30,10 @@ class UserManager:
         for bank in User.get_banks(user_id):
             banks_schema.append(UserManager.cast_bank_to_schema(bank))
         return banks_schema
+
+    @staticmethod
+    def set_active_bank(bank_id: str, user_id: str):
+        User.set_active_bank(bank_id, user_id)
 
 
 class BankCRUD:

@@ -1,8 +1,8 @@
-"""empty message
+"""feat: init new migrations
 
-Revision ID: 2509683cd1da
+Revision ID: 793affa6acb1
 Revises: 
-Create Date: 2023-10-11 13:41:15.841051
+Create Date: 2023-10-11 17:02:14.904602
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '2509683cd1da'
+revision = '793affa6acb1'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,7 +34,8 @@ def upgrade() -> None:
     sa.Column('kor_score', sa.String(length=20), nullable=False),
     sa.Column('swift', sa.String(length=11), nullable=False),
     sa.Column('iban', sa.String(length=34), nullable=True),
-    sa.Column('user_id', postgresql.UUID(), nullable=False),
+    sa.Column('user_id', postgresql.UUID(as_uuid=True), nullable=False),
+    sa.Column('is_active', sa.Boolean(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('bank_name')

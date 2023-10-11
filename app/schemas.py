@@ -11,6 +11,7 @@ class BankSchema(BaseModel):
     swift: str
     iban: str
     user_id: UUID
+    is_active: bool = False
 
 
 class UserSchema(BaseModel):

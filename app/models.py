@@ -1,7 +1,7 @@
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, ForeignKey
+from sqlalchemy import Column, String, Integer, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from schemas import UserSchema, BankSchema
 from sqlalchemy.orm import sessionmaker
@@ -18,7 +18,20 @@ class User(db.Model):
     username = Column(String(20), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(60), nullable=False)
-    banks = relationship("BankReq", backref="user", lazy=True)
+    banks = relationship(
+        "BankReq", backref="user", foreign_keys="BankReq.user_id", lazy=True
+    )
+
+    @staticmethod
+    def set_active_bank(bank_id: str, user_id: str):
+        bank: BankReq = BankReq.query.filter_by(id=bank_id).first()
+        if bank:
+            old_bank = BankReq.query.filter_by(is_active=True, user_id=user_id).first()
+            if old_bank:
+                old_bank.is_active = False
+            bank.is_active = True
+
+            db.session.commit()
 
     @staticmethod
     def delete(id: str):
@@ -56,6 +69,7 @@ class BankReq(db.Model):
     swift = Column(String(11), nullable=False)
     iban = Column(String(34), nullable=True)
     user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    is_active = Column(Boolean, default=False)
 
     @staticmethod
     def new(req: BankSchema):
