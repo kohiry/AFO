@@ -1,5 +1,11 @@
 """Конфиг для хранения важныx переменных."""
-import os
+import secrets
+
+
+class Config:
+    @staticmethod
+    def get_secret():
+        return secrets.token_urlsafe(32)
 
 
 class DBConfig:
