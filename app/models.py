@@ -3,7 +3,7 @@ import uuid
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from schemas import UserSchema
+from schemas import UserSchema, BankSchema
 from sqlalchemy.orm import sessionmaker
 from main import app
 from flask_sqlalchemy import SQLAlchemy
@@ -21,10 +21,18 @@ class User(db.Model):
     banks = relationship("BankReq", backref="user", lazy=True)
 
     @staticmethod
+    def delete(id: str):
+        user = User.query.filter_by(id=id).first()
+        if user:
+            db.session.delete(user)
+            db.session.commit()
+
+    @staticmethod
     def new(us: UserSchema):
         new_user = User(
             id=us.id, username=us.username, email=us.email, password=us.password
         )
+
         db.session.add(new_user)
         db.session.commit()
 
@@ -41,7 +49,44 @@ class BankReq(db.Model):
     kor_score = Column(String(20), nullable=False)
     swift = Column(String(11), nullable=False)
     iban = Column(String(34), nullable=True)
-    user_id = Column(UUID, ForeignKey("users.id"), nullable=False)
+    user_id = Column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+
+    @staticmethod
+    def new(req: BankSchema):
+        new_req = BankReq(
+            id=req.id,
+            bik=req.bik,
+            bank_name=req.bank_name,
+            kor_score=req.kor_score,
+            swift=req.swift,
+            iban=req.iban,
+            user_id=req.user_id,
+        )
+        db.session.add(new_req)
+        db.session.commit()
+
+    @staticmethod
+    def delete(id: str):
+        req = BankReq.query.filter_by(id=id).first()
+        if req:
+            db.session.delete(req)
+            db.session.commit()
+
+    @staticmethod
+    def update(req: BankSchema):
+        existing_req = BankReq.query.get(req.id)
+
+        if existing_req:
+            # Обновите атрибуты объекта на основе данных из BankSchema
+            existing_req.bik = req.bik
+            existing_req.bank_name = req.bank_name
+            existing_req.kor_score = req.kor_schore
+            existing_req.swift = req.swift
+            existing_req.iban = req.iban
+            existing_req.user_id = req.user_id
+
+            # Сохраните изменения в базе данных
+            db.session.commit()
 
     def __repr__(self):
         return f"<Bank Req {self.bank_name} user_id {self.user_id}>"

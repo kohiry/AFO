@@ -1,5 +1,5 @@
-from models import User
-from schemas import UserSchema
+from models import User, BankReq
+from schemas import UserSchema, BankSchema
 
 
 class UserManager:
@@ -11,10 +11,27 @@ class UserManager:
         return CastUserAndUserSchema(User.query.get(user_id)).db_to_schema()
 
 
+class BankCRUD:
+    @staticmethod
+    def create(req: BankSchema):
+        BankReq.new(req)
+
+    @staticmethod
+    def delete(id: str):
+        BankReq.delete(id)
+
+    @staticmethod
+    def update(req: BankSchema):
+        BankReq.update(req)
+
+
 class UserCRUD:
     @staticmethod
     def create(us: UserSchema):
         User.new(us)
+
+    def delete(id: str):
+        User.delete(id)
 
 
 class CastUserAndUserSchema:

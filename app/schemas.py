@@ -6,6 +6,7 @@ from uuid import UUID
 class BankSchema(BaseModel):
     id: UUID
     bank_name: str
+    bik: str
     kor_score: str
     swift: str
     iban: str
