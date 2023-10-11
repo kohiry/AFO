@@ -28,6 +28,12 @@ class User(db.Model):
             db.session.commit()
 
     @staticmethod
+    def get_banks(id: str):
+        return BankReq.query.filter_by(
+            user_id=id
+        ).all()  # по хорошему пару записей только, мало ли их очень много..
+
+    @staticmethod
     def new(us: UserSchema):
         new_user = User(
             id=us.id, username=us.username, email=us.email, password=us.password
