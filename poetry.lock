@@ -203,22 +203,19 @@ sqlalchemy = ">=2.0.16"
 
 [[package]]
 name = "flask-wtf"
-version = "1.2.1"
-description = "Form rendering, validation, and CSRF protection for Flask with WTForms."
+version = "0.14.3"
+description = "Simple integration of Flask and WTForms."
 optional = false
-python-versions = ">=3.8"
+python-versions = "*"
 files = [
-    {file = "flask_wtf-1.2.1-py3-none-any.whl", hash = "sha256:fa6793f2fb7e812e0fe9743b282118e581fb1b6c45d414b8af05e659bd653287"},
-    {file = "flask_wtf-1.2.1.tar.gz", hash = "sha256:8bb269eb9bb46b87e7c8233d7e7debdf1f8b74bf90cc1789988c29b37a97b695"},
+    {file = "Flask-WTF-0.14.3.tar.gz", hash = "sha256:d417e3a0008b5ba583da1763e4db0f55a1269d9dd91dcc3eb3c026d3c5dbd720"},
+    {file = "Flask_WTF-0.14.3-py2.py3-none-any.whl", hash = "sha256:57b3faf6fe5d6168bda0c36b0df1d05770f8e205e18332d0376ddb954d17aef2"},
 ]
 
 [package.dependencies]
-flask = "*"
+Flask = "*"
 itsdangerous = "*"
-wtforms = "*"
-
-[package.extras]
-email = ["email-validator"]
+WTForms = "*"
 
 [[package]]
 name = "greenlet"
@@ -760,4 +757,4 @@ email = ["email-validator"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "1050b1cd7ad92b56e6dd664e675fc8dfd896e74af997900841097e6165b2a6a8"
+content-hash = "6582ea382deebe1a8ea60e89146658d76f8743f2cdde3e62ca3beea5b6fa358a"

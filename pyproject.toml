@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 flask = "^3.0.0"
-flask-wtf = "^1.2.1"
+flask-wtf = "0.14.3"
 email-validator = "^2.0.0.post2"
 flask-bcrypt = "^1.0.1"
 sqlalchemy = "^2.0.21"
