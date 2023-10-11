@@ -1,30 +1,24 @@
 from main import app
-from flask import render_template, flash, redirect, url_for, request
-from wtforms import Form, StringField, PasswordField, validators
-from sqlalchemy import Column, Integer, String
-from forms import RegistrationForm, LoginForm
+from flask import Flask, render_template
+from flask_login import login_user, current_user, logout_user, login_required
+from services import UserManager
+from flask_login import LoginManager
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    form = LoginForm()
-    if request.method == "POST":
-        print(request.form["email"])
-        print(request.form["password"])
-        return redirect(url_for("success", email=request.form["email"]))
-    return render_template("login.html", form=form)
+@app.route("/")
+@app.route("/index")
+def hello_world():
+    return render_template("index.html")
 
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    # создаем экземпляр класса формы
-    form = RegistrationForm(request.form)
-    # если HTTP-метод POST и данные формы валидны
-    if request.method == "POST" and form.validate():
-        flash("Спасибо за регистрацию")
-        # return redirect(url_for("login"))
-    # если HTTP-метод GET, то просто отрисовываем форму
-    return render_template("register.html", form=form)
+login_manager = LoginManager(app)
+login_manager.login_view = "login"
+login_manager.login_message_category = "info"
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return UserManager.get_by_id(user_id)
 
 
 if __name__ == "__main__":
