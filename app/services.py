@@ -6,9 +6,16 @@ from schemas import UserSchema
 class UserManager:
     """Класс для взаимодействия с пользователем."""
 
+    @staicmethod
     def get_by_id(user_id: str) -> UserSchema:
         """Метод получения схемы юзера по его id."""
         return castU(User.query.get(user_id)).db_to_schema()
+
+
+class UserCRUD:
+    @staticmethod
+    def create(us: UserSchema):
+        User.new(us)
 
 
 class CastUserAndUserSchema:
