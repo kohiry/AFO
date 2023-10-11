@@ -53,6 +53,8 @@ def test_req_creation_and_upd():
     try:
         UserCRUD.create(user_data)
         BankCRUD.create(req)
+        req.bank_name = "мало денег банк(с)"
+        BankCRUD.update(req)
 
     except Exception as e:
         pytest.fail(f"Bad request: {e}")
