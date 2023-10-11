@@ -2,17 +2,6 @@
 import os
 
 
-class Config:
-    """Класс конфига."""
-
-    SECRET_KEY = os.urandom(32)  # example variant
-
-    @staticmethod
-    def get_secret_key() -> str:
-        """Возвращает секретный ключ."""
-        return Config.SECRET_KEY
-
-
 class DBConfig:
     """Класс конфига базы данных.
     Здесь хранятся переменные postgresql
@@ -25,27 +14,12 @@ class DBConfig:
     POSTGRES_PORT = "5432"
 
     @staticmethod
-    def get_db_name() -> str:
-        """Возвращает название базы данных."""
-        return DBConfig.POSTGRES_DB
-
-    @staticmethod
-    def get_db_username() -> str:
-        """Возвращает имя пользователя базы данных."""
-        return DBConfig.POSTGRES_USERNAME
-
-    @staticmethod
-    def get_db_pswd() -> str:
-        """Возвращает пaроль к базе данных."""
-        return DBConfig.POSTGRES_PASSWORD
-
-    @staticmethod
     def get_db_data() -> dict:
         """Возвращает все данные о базе данных в виде словаря."""
         data = {
-            "pass": DBConfig.get_db_pswd(),
-            "name": DBConfig.get_db_username(),
-            "db": DBConfig.get_db_name(),
+            "pass": DBConfig.POSTGRES_PASSWORD,
+            "name": DBConfig.POSTGRES_USERNAME,
+            "db": DBConfig.POSTGRES_DB,
             "host": DBConfig.POSTGRES_HOST,
             "port": DBConfig.POSTGRES_PORT,
         }
@@ -53,5 +27,6 @@ class DBConfig:
 
     @staticmethod
     def get_db_url() -> str:
+        """Возвращает ссылку на postgresql."""
         conf = DBConfig.get_db_data()
         return f"postgresql+psycopg2://{conf['name']}:{conf['pass']}@{conf['host']}:{conf['port']}/{conf['db']}"
