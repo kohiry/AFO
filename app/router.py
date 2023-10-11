@@ -5,10 +5,38 @@ import services
 from flask import render_template, request, redirect, url_for, session
 
 
-@app.route("/")
+@app.route("/add_bank", methods=["GET", "POST"])
+def add_bank():
+    if "username" not in session:
+        return redirect(url_for("home"))
+    if request.method == "POST":
+        bank = schemas.BankSchema(
+            bank_name=request.form.get("bank_name"),
+            bik=request.form.get("bik"),
+            kor_score=request.form.get("kor_score"),
+            swift=request.form.get("swift"),
+            iban=request.form.get("iban"),
+            user_id=session["uuid"],
+            banks=[],
+        )
+        services.BankCRUD.create(bank)
+        return redirect(url_for("home"))
+    return render_template("add_bank.html")
+
+
+@app.route("/", methods=["GET", "POST"])
 def home():
     if "username" in session:
-        return render_template("index.html", username=session["username"])
+        if request.method == "POST":
+            services.UserManager.set_active_bank(
+                request.form.get(session["username"]), session["uuid"]
+            )
+
+        return render_template(
+            "index.html",
+            username=session["username"],
+            user_banks=services.UserManager.get_banks(session["uuid"]),
+        )
     else:
         return render_template("index.html")
 
@@ -21,6 +49,9 @@ def login():
         )
         if services.UserCheck.check(userform):
             session["username"] = userform.username
+            session["uuid"] = services.UserManager.get_by_name_not_bool(
+                userform.username
+            ).id
             return redirect(url_for("home"))
         else:
             return render_template("login.html", error="Invalid username or password")
@@ -56,6 +87,7 @@ def register():
 @app.route("/logout")
 def logout():
     session.pop("username", None)
+    session.pop("uuid", None)
     return redirect(url_for("home"))
 
 

@@ -5,6 +5,25 @@ from typing import List
 from schemas import UserSchema, BankSchema, LoginSchema, RegisterSchema
 
 
+class BankManager:
+    @staticmethod
+    def get_bank_by_id(id: str) -> BankSchema:
+        return BankManager.cast_bank_to_schema(BankReq.query.filter_by(id=id).first())
+
+    @staticmethod
+    def cast_bank_to_schema(bank: BankReq) -> BankSchema:
+        return BankSchema(
+            id=bank.id,
+            bik=bank.bik,
+            bank_name=bank.bank_name,
+            kor_score=bank.kor_score,
+            swift=bank.swift,
+            iban=bank.iban,
+            user_id=bank.user_id,
+            is_active=bank.is_active,
+        )
+
+
 class UserCheck:
     @staticmethod
     def check(usr: LoginSchema) -> bool:
@@ -20,8 +39,15 @@ class UserManager:
 
     @staticmethod
     def get_by_name(username: str) -> bool:
-        """Метод получения схемы юзера по его id."""
+        """Метод получения схемы юзера по его username."""
         return User.query.filter_by(username=username).first() is not None
+
+    @staticmethod
+    def get_by_name_not_bool(username: str) -> UserSchema:
+        """Метод получения схемы юзера по его username."""
+        return CastUserAndUserSchema(
+            User.query.filter_by(username=username).first()
+        ).db_to_schema()
 
     @staticmethod
     def get_by_id(user_id: str) -> UserSchema:
@@ -29,23 +55,10 @@ class UserManager:
         return CastUserAndUserSchema(User.query.get(user_id)).db_to_schema()
 
     @staticmethod
-    def cast_bank_to_schema(bank: BankReq) -> BankSchema:
-        return BankSchema(
-            id=bank.id,
-            bik=bank.bik,
-            bank_name=bank.bank_name,
-            kor_score=bank.kor_score,
-            swift=bank.swift,
-            iban=bank.iban,
-            user_id=bank.user_id,
-            is_active=bank.is_active,
-        )
-
-    @staticmethod
     def get_banks(user_id: str) -> List[BankSchema]:
         banks_schema = []
         for bank in User.get_banks(user_id):
-            banks_schema.append(UserManager.cast_bank_to_schema(bank))
+            banks_schema.append(BankManager.cast_bank_to_schema(bank))
         return banks_schema
 
     @staticmethod
@@ -56,6 +69,7 @@ class UserManager:
 class BankCRUD:
     @staticmethod
     def create(req: BankSchema):
+        req.id = uuid.uuid4()
         BankReq.new(req)
 
     @staticmethod
@@ -101,5 +115,6 @@ class CastUserAndUserSchema:
             id=self._user.id,
             password=self._user.password,
             username=self._user.username,
+            banks=[],  # костыль :3
         )
         return user_schema

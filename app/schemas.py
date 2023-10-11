@@ -15,12 +15,12 @@ class RegisterSchema(BaseModel):
 
 
 class BankSchema(BaseModel):
-    id: UUID
+    id: UUID = None
     bank_name: str
     bik: str
     kor_score: str
     swift: str
-    iban: str
+    iban: str = None
     user_id: UUID
     is_active: bool = False
 
