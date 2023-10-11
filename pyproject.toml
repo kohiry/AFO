@@ -17,6 +17,8 @@ flask-sqlalchemy = "^3.1.1"
 pydantic = "^2.4.2"
 psycopg2 = "^2.9.9"
 wtforms = "^3.1.0"
+flask-login = "^0.6.2"
+pytest = "^7.4.2"
 
 
 [build-system]
