@@ -1,4 +1,5 @@
 from models import User
+from services import CastUserAndUserSchema as castU
 from schemas import UserSchema
 
 
@@ -7,7 +8,7 @@ class UserManager:
 
     def get_by_id(user_id: str) -> UserSchema:
         """Метод получения схемы юзера по его id."""
-        return User.check_user(user_id)
+        return castU(User.query.get(user_id)).db_to_schema()
 
 
 class CastUserAndUserSchema:

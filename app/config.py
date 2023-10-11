@@ -54,4 +54,4 @@ class DBConfig:
     @staticmethod
     def get_db_url() -> str:
         conf = DBConfig.get_db_data()
-        return f"postgresql://{conf['name']}:{conf['pass']}@{conf['host']}/{conf['db']}"
+        return f"postgresql+psycopg2://{conf['name']}:{conf['pass']}@{conf['host']}:{conf['port']}/{conf['db']}"
