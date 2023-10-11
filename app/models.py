@@ -4,12 +4,14 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from schemas import UserSchema
+from sqlalchemy.orm import sessionmaker
+from main import app
+from flask_sqlalchemy import SQLAlchemy
 
-Base = declarative_base()
-metadata = Base.metadata
+db = SQLAlchemy(app)
 
 
-class User(Base):
+class User(db.Model):
     __tablename__ = "users"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
@@ -21,16 +23,16 @@ class User(Base):
     @staticmethod
     def new(us: UserSchema):
         new_user = User(
-            id=us.id, username=us.username, enail=us.email, password=us.password
+            id=us.id, username=us.username, email=us.email, password=us.password
         )
-        Base.session.add(new_user)
-        Base.session.commit()
+        db.session.add(new_user)
+        db.session.commit()
 
     def __repr__(self):
         return "<User %r>" % self.username
 
 
-class BankReq(Base):
+class BankReq(db.Model):
     __tablename__ = "banks_req"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
