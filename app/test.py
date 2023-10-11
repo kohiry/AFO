@@ -20,6 +20,7 @@ def test_user_creation():
     # Вызываем функцию создания пользователя и проверяем, что она не вызывает исключений
     try:
         UserCRUD.create(user_data)
+        UserCRUD.delete(user_data.id)
     except Exception as e:
         pytest.fail(f"User creation failed: {e}")
 
