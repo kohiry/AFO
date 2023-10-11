@@ -80,7 +80,7 @@ class BankReq(db.Model):
             # Обновите атрибуты объекта на основе данных из BankSchema
             existing_req.bik = req.bik
             existing_req.bank_name = req.bank_name
-            existing_req.kor_score = req.kor_schore
+            existing_req.kor_score = req.kor_score
             existing_req.swift = req.swift
             existing_req.iban = req.iban
             existing_req.user_id = req.user_id
