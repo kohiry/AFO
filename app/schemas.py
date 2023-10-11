@@ -3,6 +3,11 @@ from typing import List
 from uuid import UUID
 
 
+class LoginSchema(BaseModel):
+    username: str
+    password: str
+
+
 class BankSchema(BaseModel):
     id: UUID
     bank_name: str

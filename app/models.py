@@ -1,10 +1,8 @@
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from schemas import UserSchema, BankSchema
-from sqlalchemy.orm import sessionmaker
 from main import app
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,7 +15,7 @@ class User(db.Model):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(20), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
-    password = Column(String(60), nullable=False)
+    password = Column(String(110), nullable=False)
     banks = relationship(
         "BankReq", backref="user", foreign_keys="BankReq.user_id", lazy=True
     )

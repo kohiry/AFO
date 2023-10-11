@@ -1,6 +1,17 @@
 from models import User, BankReq
+from werkzeug.security import generate_password_hash, check_password_hash
 from typing import List
-from schemas import UserSchema, BankSchema
+from schemas import UserSchema, BankSchema, LoginSchema
+
+
+class UserCheck:
+    @staticmethod
+    def check(usr: LoginSchema) -> bool:
+        user = User.query.filter_by(username=usr.username).first()
+        if user:
+            return check_password_hash(user.password, usr.password)
+        else:
+            return False
 
 
 class UserManager:
@@ -53,6 +64,7 @@ class BankCRUD:
 class UserCRUD:
     @staticmethod
     def create(us: UserSchema):
+        us.password = generate_password_hash(us.password)
         User.new(us)
 
     def delete(id: str):
