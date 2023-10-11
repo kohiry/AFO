@@ -8,6 +8,12 @@ class LoginSchema(BaseModel):
     password: str
 
 
+class RegisterSchema(BaseModel):
+    username: str
+    email: EmailStr = Field(examples=["marcelo@mail.com"])
+    password: str
+
+
 class BankSchema(BaseModel):
     id: UUID
     bank_name: str

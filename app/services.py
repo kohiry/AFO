@@ -1,7 +1,8 @@
 from models import User, BankReq
+import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
 from typing import List
-from schemas import UserSchema, BankSchema, LoginSchema
+from schemas import UserSchema, BankSchema, LoginSchema, RegisterSchema
 
 
 class UserCheck:
@@ -16,6 +17,11 @@ class UserCheck:
 
 class UserManager:
     """Класс для взаимодействия с пользователем."""
+
+    @staticmethod
+    def get_by_name(username: str) -> bool:
+        """Метод получения схемы юзера по его id."""
+        return User.query.filter_by(username=username).first() is not None
 
     @staticmethod
     def get_by_id(user_id: str) -> UserSchema:
@@ -62,6 +68,17 @@ class BankCRUD:
 
 
 class UserCRUD:
+    @staticmethod
+    def register_to_user(reg: RegisterSchema):
+        user = UserSchema(
+            id=uuid.uuid4(),
+            username=reg.username,
+            email=reg.email,
+            password=reg.password,
+            banks=[],
+        )
+        UserCRUD.create(user)
+
     @staticmethod
     def create(us: UserSchema):
         us.password = generate_password_hash(us.password)
