@@ -5,10 +5,11 @@
     <title></title>
   </head>
   <body>
-      {% if current_user.is_authenticated %}
-        {% include 'views/authenticated.html' %}
+      {% if username%}
+        hello :^3
       {% else %}
-        {% include 'views/unauthenticated.html' %}
+        u are not log in.. ;^(
+        click here to <a href='/login'> login </a> and here to <a href='/register'>register</a>
       {% endif %}
   </body>
 </html>

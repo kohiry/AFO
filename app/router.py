@@ -1,24 +1,20 @@
 from main import app
-from flask import Flask, render_template
-from flask_login import login_user, current_user, logout_user, login_required
-from services import UserManager
-from flask_login import LoginManager
+from flask import render_template, request, redirect, url_for, session
 
 
 @app.route("/")
-@app.route("/index")
-def hello_world():
-    return render_template("index.html")
+def home():
+    if "username" in session:
+        return render_template("index.html", username=session["username"])
+    else:
+        return render_template("index.html")
 
 
-login_manager = LoginManager(app)
-login_manager.login_view = "login"
-login_manager.login_message_category = "info"
-
-
-@login_manager.user_loader
-def load_user(user_id):
-    return UserManager.get_by_id(user_id)
+@app.route("/login")
+def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        pwd = request.form["pwd"]
 
 
 if __name__ == "__main__":
