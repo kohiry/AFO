@@ -5,6 +5,28 @@ import services
 from flask import render_template, request, redirect, url_for, session
 
 
+@app.route("/update_bank/<uuid:id>", methods=["GET", "POST"])
+def update_bank(id):
+    if "username" not in session:
+        return redirect(url_for("home"))
+    if request.method == "POST":
+        bank = schemas.BankSchema(
+            id=request.form.get("id"),
+            bank_name=request.form.get("bank_name"),
+            bik=request.form.get("bik"),
+            kor_score=request.form.get("kor_score"),
+            swift=request.form.get("swift"),
+            iban=request.form.get("iban"),
+            user_id=session["uuid"],
+        )
+        services.BankCRUD.update(bank)
+        return redirect(url_for("home"))
+    return render_template(
+        "update_bank.html",
+        bank_req=services.BankManager.get_bank_by_id(id),
+    )
+
+
 @app.route("/add_bank", methods=["GET", "POST"])
 def add_bank():
     if "username" not in session:
@@ -17,11 +39,24 @@ def add_bank():
             swift=request.form.get("swift"),
             iban=request.form.get("iban"),
             user_id=session["uuid"],
-            banks=[],
         )
         services.BankCRUD.create(bank)
         return redirect(url_for("home"))
     return render_template("add_bank.html")
+
+
+@app.route("/delete_bank", methods=["GET", "POST"])
+def delete_bank():
+    if "username" not in session:
+        return redirect(url_for("home"))
+    if request.method == "POST" and "username" in session:
+        bank_to_delete = request.form.get("bank_to_delete")
+        services.BankCRUD.delete(bank_to_delete)
+        return redirect(url_for("home"))
+
+    return render_template(
+        "delete_bank.html", user_banks=services.UserManager.get_banks(session["uuid"])
+    )
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -31,7 +66,6 @@ def home():
             services.UserManager.set_active_bank(
                 request.form.get(session["username"]), session["uuid"]
             )
-
         return render_template(
             "index.html",
             username=session["username"],
@@ -43,7 +77,7 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST" and "username" not in session:
+    if request.method == "POST":
         userform = schemas.LoginSchema(
             username=request.form["username"], password=request.form["password"]
         )

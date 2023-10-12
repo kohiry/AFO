@@ -1,0 +1,23 @@
+<a href='/'>home</a>
+<form method="POST" action="/update_bank">
+  <input type="hidden" name="id" value="{{ bank_req.id }}">
+
+  <label for="bank_name">Bank Name:</label>
+  <input type="text" id="bank_name" name="bank_name" value="{{ bank_req.bank_name }}">
+
+  <label for="bik">Bik:</label>
+  <input type="text" id="bik" name="bik" value="{{ bank_req.bik }}">
+
+  <label for="kor_score">Kor Score:</label>
+  <input type="text" id="kor_score" name="kor_score" value="{{ bank_req.kor_score }}">
+
+  <label for="swift">Swift:</label>
+  <input type="text" id="swift" name="swift" value="{{ bank_req.swift }}">
+
+  <label for="iban">Iban:</label>
+  <input type="text" id="iban" name="iban" value="{{ bank_req.iban }}">
+
+
+
+  <input type="submit" value="Сохранить изменения">
+</form>

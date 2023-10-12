@@ -10,23 +10,25 @@
         <a href='/logout'> logout</a>
         <br>
         <a href='/add_bank'>Add</a>
+        <br>
+        <a href='/delete_bank'>delete</a>
+        <br>
 <form method="POST" action="/">
-   <input type="submit" value="Submit">
+   <input type="submit" value="Запомнить выбор реквизитов">
 <ul>
   {% for bank_req in user_banks %}
     <li>
-      ID: {{ bank_req.id }}<br>
-      Bank Name: {{ bank_req.bank_name }}<br>
-      Bik: {{ bank_req.bik }}<br>
-      Kor Score: {{ bank_req.kor_score }}<br>
+      Название банка: {{ bank_req.bank_name }}<br>
+      БИК: {{ bank_req.bik }}<br>
+      Корреспондетский счёт: {{ bank_req.kor_score }}<br>
       Swift: {{ bank_req.swift }}<br>
       Iban: {{ bank_req.iban }}<br>
-      User ID: {{ bank_req.user_id }}<br>
 
       <!-- Радио-кнопка для Is Active -->
       <label for="is_active_{{ bank_req.id }}">Is Active:</label>
       <input type="radio" name="{{username}}" id="{{bank_req.id}}" value="{{ bank_req.id }}"
         {% if bank_req.is_active %}checked{% endif %}>
+      <a href='/update_bank/{{bank_req.id}}'>Редактировать </a>
 
     </li>
   {% endfor %}

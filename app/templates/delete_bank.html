@@ -1,0 +1,10 @@
+<a href='/'>home</a>
+<form method="POST" action="/delete_bank">
+  <select name="bank_to_delete">
+    <option value="" selected disabled>Выберите банк для удаления</option>
+    {% for bank_req in user_banks %}
+      <option value="{{ bank_req.id }}">Удалить {{ bank_req.bank_name }}</option>
+    {% endfor %}
+  </select>
+  <input type="submit" value="Удалить">
+</form>
