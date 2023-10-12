@@ -10,7 +10,6 @@ class LoginSchema(BaseModel):
 
 class RegisterSchema(BaseModel):
     username: str
-    email: EmailStr = Field(examples=["marcelo@mail.com"])
     password: str
 
 
@@ -28,6 +27,4 @@ class BankSchema(BaseModel):
 class UserSchema(BaseModel):
     id: UUID
     username: str
-    email: EmailStr = Field(examples=["marcelo@mail.com"])
     password: str
-    banks: List[BankSchema]

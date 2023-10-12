@@ -1,8 +1,8 @@
 """feat: init commit 
 
-Revision ID: 40fffa5cf14e
+Revision ID: f36762a89867
 Revises: 
-Create Date: 2023-10-12 05:49:29.780635
+Create Date: 2023-10-12 06:10:15.643095
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '40fffa5cf14e'
+revision = 'f36762a89867'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,7 +21,6 @@ def upgrade() -> None:
     op.create_table('users',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
     sa.Column('username', sa.String(length=20), nullable=False),
-    sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('username')

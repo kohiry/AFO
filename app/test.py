@@ -9,10 +9,8 @@ def test_user_login_bad():
     user_id = uuid.uuid4()
     user_data = UserSchema(
         id=user_id,
-        email="hi@mail.ru",
         username="hello",
         password="123",
-        banks=[],
     )
     user2_data = LoginSchema(
         username="hello",
@@ -45,10 +43,8 @@ def test_active_bank():
     # Создаем объект UserSchema
     user_data = UserSchema(
         id=user_id,
-        email="hi@mail.ru",
         username="hello",
         password="123",
-        banks=[],
     )
 
     req = BankSchema(
@@ -105,10 +101,8 @@ def test_user_creation():
     # Создаем объект UserSchema
     user_data = UserSchema(
         id=user_id,
-        email="hi@mail.ru",
         username="hello",
         password="123",
-        banks=[],
     )
 
     # Вызываем функцию создания пользователя и проверяем, что она не вызывает исключений
@@ -126,10 +120,8 @@ def test_bank_list():
     # Создаем объект UserSchema
     user_data = UserSchema(
         id=user_id,
-        email="hi@mail.ru",
         username="hello",
         password="123",
-        banks=[],
     )
 
     req = BankSchema(
@@ -175,10 +167,8 @@ def test_req_creation_and_upd():
     # Создаем объект UserSchema
     user_data = UserSchema(
         id=user_id,
-        email="hi@mail.ru",
         username="hello",
         password="123",
-        banks=[],
     )
 
     # Создаем объект UserSchema

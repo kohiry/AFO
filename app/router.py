@@ -99,14 +99,10 @@ def login():
 def register():
     if request.method == "POST" and "username" not in session:
         if not services.UserManager.get_by_name(request.form["username"]):
-            try:
-                register_schema = schemas.RegisterSchema(
-                    username=request.form["username"],
-                    email=request.form["email"],
-                    password=request.form["password"],
-                )
-            except ValidationError:
-                return render_template("register.html", error="email incorrect")
+            register_schema = schemas.RegisterSchema(
+                username=request.form["username"],
+                password=request.form["password"],
+            )
             services.UserCRUD.register_to_user(register_schema)
             return redirect(url_for("login"))
 

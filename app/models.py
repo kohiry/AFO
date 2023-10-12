@@ -14,7 +14,6 @@ class User(db.Model):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(20), unique=True, nullable=False)
-    email = Column(String(120), nullable=False)
     password = Column(String, nullable=False)
     banks = relationship(
         "BankReq", backref="user", foreign_keys="BankReq.user_id", lazy=True
@@ -47,7 +46,7 @@ class User(db.Model):
     @staticmethod
     def new(us: UserSchema):
         new_user = User(
-            id=us.id, username=us.username, email=us.email, password=us.password
+            id=us.id, username=us.username, password=us.password
         )
 
         db.session.add(new_user)

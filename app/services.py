@@ -87,9 +87,7 @@ class UserCRUD:
         user = UserSchema(
             id=uuid.uuid4(),
             username=reg.username,
-            email=reg.email,
             password=reg.password,
-            banks=[],
         )
         UserCRUD.create(user)
 
@@ -111,10 +109,8 @@ class CastUserAndUserSchema:
     def db_to_schema(self) -> UserSchema:
         """Преобразование модели в схему."""
         user_schema = UserSchema(
-            email=self._user.email,
             id=self._user.id,
             password=self._user.password,
             username=self._user.username,
-            banks=[],  # костыль :3
         )
         return user_schema
