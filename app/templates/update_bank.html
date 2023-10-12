@@ -1,5 +1,5 @@
 <a href='/'>home</a>
-<form method="POST" action="/update_bank">
+<form method="POST" action="/update_bank/{{bank_req.id}}">
   <input type="hidden" name="id" value="{{ bank_req.id }}">
 
   <label for="bank_name">Bank Name:</label>

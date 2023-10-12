@@ -1,8 +1,8 @@
 """feat: init commit 
 
-Revision ID: 60e8985e4cea
+Revision ID: 40fffa5cf14e
 Revises: 
-Create Date: 2023-10-12 05:30:11.466766
+Create Date: 2023-10-12 05:49:29.780635
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '60e8985e4cea'
+revision = '40fffa5cf14e'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,12 +24,11 @@ def upgrade() -> None:
     sa.Column('email', sa.String(length=120), nullable=False),
     sa.Column('password', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('email'),
     sa.UniqueConstraint('username')
     )
     op.create_table('banks_req',
     sa.Column('id', postgresql.UUID(as_uuid=True), nullable=False),
-    sa.Column('bik', sa.Integer(), nullable=True),
+    sa.Column('bik', sa.String(), nullable=True),
     sa.Column('bank_name', sa.String(length=50), nullable=False),
     sa.Column('kor_score', sa.String(length=20), nullable=False),
     sa.Column('swift', sa.String(length=11), nullable=False),

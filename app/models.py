@@ -14,7 +14,7 @@ class User(db.Model):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(20), unique=True, nullable=False)
-    email = Column(String(120), unique=True, nullable=False)
+    email = Column(String(120), nullable=False)
     password = Column(String, nullable=False)
     banks = relationship(
         "BankReq", backref="user", foreign_keys="BankReq.user_id", lazy=True
@@ -61,7 +61,7 @@ class BankReq(db.Model):
     __tablename__ = "banks_req"
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    bik = Column(Integer())
+    bik = Column(String)
     bank_name = Column(String(50), unique=True, nullable=False)
     kor_score = Column(String(20), nullable=False)
     swift = Column(String(11), nullable=False)
