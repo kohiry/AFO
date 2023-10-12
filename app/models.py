@@ -15,7 +15,7 @@ class User(db.Model):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     username = Column(String(20), unique=True, nullable=False)
     email = Column(String(120), unique=True, nullable=False)
-    password = Column(String(110), nullable=False)
+    password = Column(String, nullable=False)
     banks = relationship(
         "BankReq", backref="user", foreign_keys="BankReq.user_id", lazy=True
     )

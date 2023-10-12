@@ -16,7 +16,7 @@ class DBConfig:
     POSTGRES_DB = "users"
     POSTGRES_USERNAME = "root2"
     POSTGRES_PASSWORD = "root3"
-    POSTGRES_HOST = "localhost"
+    POSTGRES_HOST = "myDB"
     POSTGRES_PORT = "5432"
 
     @staticmethod

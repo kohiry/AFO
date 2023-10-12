@@ -8,17 +8,14 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 flask = "^3.0.0"
-flask-wtf = "0.14.3"
 email-validator = "^2.0.0.post2"
 flask-bcrypt = "^1.0.1"
 sqlalchemy = "^2.0.21"
 alembic = "^1.12.0"
 flask-sqlalchemy = "^3.1.1"
 pydantic = "^2.4.2"
-psycopg2 = "^2.9.9"
-wtforms = "^3.1.0"
-flask-login = "^0.6.2"
 pytest = "^7.4.2"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]
