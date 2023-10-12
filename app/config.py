@@ -13,7 +13,7 @@ class DBConfig:
     Здесь хранятся переменные postgresql
     """
 
-    POSTGRES_DB = "users"
+    POSTGRES_DB = "users2"
     POSTGRES_USERNAME = "root2"
     POSTGRES_PASSWORD = "root3"
     POSTGRES_HOST = "myDB"
